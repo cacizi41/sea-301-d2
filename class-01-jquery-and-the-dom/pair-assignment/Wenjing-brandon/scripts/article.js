@@ -27,6 +27,11 @@ Article.prototype.toHtml = function() {
   // publication date.
 
   $newArticle.find('h1').html(this.title);
+  //within parent container article, won't select h1 in header
+
+  $newArticle.find('.byline a').text(this.author);
+  $newArticle.find('address > a').attr('href')(this.authorUrl);
+  //set attr href ea to this.authorUrl
 
   // Include the publication date as a 'title' attribute to show on hover:
   $newArticle.find('time[pubdate]').attr('title', this.publishedOn);
