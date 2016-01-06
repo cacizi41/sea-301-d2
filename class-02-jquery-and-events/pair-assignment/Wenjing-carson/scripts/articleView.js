@@ -41,6 +41,7 @@ articleView.handleAuthorFilter = function() {
 
     }
     $('#category-filter').val('');
+    //
   })
 };
 
@@ -88,4 +89,6 @@ $(document).ready(function(){
   articleView.populateFilters();
   articleView.handleAuthorFilter();
   articleView.handleCategoryFilter();
+  articalView.handleMainNav();
+  articalView.setTeasers();
 });
