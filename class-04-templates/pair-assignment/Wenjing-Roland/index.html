@@ -11,15 +11,15 @@
     <link rel="stylesheet" href="styles/modules.css">
 
     <script id="article-template" type="text/x-handlebars-template">
-          <article class="clearfix" data-category="{{category}}">
+          <article class="clearfix" data-category="{{category}}" data-author="{{author}}">
               <header>
                 <h1>{{title}}</h1>
                 <div class="byline">
                   By <address><a href="">{{author}}</a></address>
-                  published <time pubdate datetime="2000-01-01">{{publishedOn}}</time>
+                  published <time pubdate datetime="2000-01-01">{{publishStatus}}</time>
                 </div>
               </header>
-              <section class="article-body"></section>
+              <section class="article-body">{{body}}</section>
               <a href="#" class="read-on">Read on &rarr;</a>
           </article>
     </script>
