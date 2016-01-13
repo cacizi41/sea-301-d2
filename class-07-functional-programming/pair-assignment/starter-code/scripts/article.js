@@ -1,4 +1,4 @@
-// TODO: Wrap the entire contents of this file in an IIFE.
+(function(module){// TODO: Wrap the entire contents of this file in an IIFE.
 // Pass in to the IIFE a module, upon which objects can be attached for later access.
 function Article (opts) {
   this.author = opts.author;
@@ -40,15 +40,17 @@ Article.loadAll = function(rawData) {
 // and process it, then hand off control to the View.
 // TODO: Refactor this function, so it accepts an argument of a callback function (likely a view function)
 // to execute once the loading of articles is done.
-Article.fetchAll = function() {
+Article.fetchAll = function() { //newMethod//
   if (localStorage.rawData) {
     Article.loadAll(JSON.parse(localStorage.rawData));
     articleView.initIndexPage();
+    // newMethod();
   } else {
     $.getJSON('/data/hackerIpsum.json', function(rawData) {
       Article.loadAll(rawData);
       localStorage.rawData = JSON.stringify(rawData); // Cache the json, so we don't need to request it next time.
       articleView.initIndexPage();
+      // newMethod();
     });
   }
 };
@@ -56,19 +58,56 @@ Article.fetchAll = function() {
 // TODO: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
 Article.numWordsAll = function() {
   return Article.all.map(function(article) {
-    return // Get the total number of words in this article
+    var words = article.body.split(' ');//split using space as delimiter
+    return words.length;
+    // return // Get the total number of words in this article
   })
-  .reduce(function(a, b) {
-    return // Sum up all the values in the collection
+  .reduce(function(prev, curElement) {
+    return (prev + curElement);//
+    // return // Sum up all the values in the collection
   })
 };
 
 // TODO: Chain together a `map` and a `reduce` call to produce an array of unique author names.
 Article.allAuthors = function() {
-  return // Don't forget to read the docs on map and reduce!
+  var listofUniqueAuthors = [];
+  console.log(Article.allAuthors);
+  return Article.all.map(function(article){
+    var author = article.author;
+    return author;
+  })
+  .filter(function(current){
+  if(.inArray(current, listofUniqueAuthors) == -1){
+    listofUniqueAuthors.push(current);
+    return true;
+  }
+  })// Don't forget to read the docs on map and reduce!
 };
 
+//.reduce(function(prev,cur){
+// if(prev.indexof(cur) < 0){
+//   prev.push(cur);
+// }
+// return prev;
+// })[];
+
 Article.numWordsByAuthor = function() {
+  return Article.allAuthors.map(function(author){
+    return{
+      name:author,
+      numwords: Article.all
+      .filter(funciton(article){
+        return article.author == author;
+      })
+      .map(function(article){
+        var words = article.body.split(' ');
+        return words.length;
+      })
+      .reduce(function(prev,cur){
+        return (prev + cur);
+      })
+    }
+  })
   // TODO: Transform each author string into an object with 2 properties: One for
   // the author's name, and one for the total number of words across all articles written by the specified author.
   return Article.allAuthors().map(function(author) {
@@ -77,3 +116,5 @@ Article.numWordsByAuthor = function() {
     }
   })
 };
+module.Article = Article;
+})(window)
