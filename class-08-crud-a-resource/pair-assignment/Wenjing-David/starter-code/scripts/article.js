@@ -19,25 +19,23 @@
     return template(this);
   };
 
-  // Done - article null TODO: Set up a DB table for articles.
-  webDB.init();
+  // DONE: Set up a DB table for articles.
+  // webDB.init();
   Article.createTable = function(callback) {
-    webDB.execute(
-      'CREATE TABLE IF NOT EXISTS articles (title VARCHAR(255) NOT NULL, category VARCHAR(255) NOT NULL, author VARCHAR(255) NOT NULL, authorURL VARCHAR(255) NOT NULL, publishedOn DATETIME NOT NULL, body TEXT NOT NULL);',
+    webDB.execute('CREATE TABLE IF NOT EXISTS articles (title VARCHAR(255) NOT NULL, category VARCHAR(255) NOT NULL, author VARCHAR(255) NOT NULL, authorURL VARCHAR(255) NOT NULL, publishedOn DATETIME NOT NULL, body TEXT NOT NULL);',
       function(result) {
-        console.log('Successfully set up the articles table.', result);
         if (callback) callback();
       }
     );
   };
 
-  // TODO: Correct the SQL to delete all records from the articles table.
+  // DONE: Correct the SQL to delete all records from the articles table.
   Article.truncateTable = function(callback) {
     webDB.execute('DELETE * FROM articles;',
     callback);
   };
 
-  // // TODO: Insert an article instance into the database:
+  // DONE: Insert an article instance into the database:
   Article.prototype.insertRecord = function(callback) {
     webDB.execute(
       [
@@ -52,7 +50,7 @@
 
   // };
 
-  // TODO: Delete an article instance from the database:
+  // DONE: Delete an article instance from the database:
   Article.prototype.deleteRecord = function(callback) {
     webDB.execute(
       [
@@ -65,7 +63,7 @@
     );
   };
 
-  // TODO: Update an article instance, overwriting it's properties into the corresponding record in the database:
+  // DONE: Update an article instance, overwriting it's properties into the corresponding record in the database:
   Article.prototype.updateRecord = function(callback) {
     webDB.execute(
       [
@@ -85,15 +83,15 @@
     });
   };
 
-  // TODO: Refactor this to check if the database holds any records or not. If the DB is empty,
+  // DONE: Refactor this to check if the database holds any records or not. If the DB is empty,
   // we need to retrieve the JSON and process it.
   // If the DB has data already, we'll load up the data (sorted!), and then hand off control to the View.
   Article.fetchAll = function(next) {
     webDB.execute('SELECT * FROM articles ORDER BY publishedOn DESC', function(rows) {
       if (rows.length) {
+        // Now instanitate those rows with the .loadAll function, and pass control to the view.
         Article.loadAll(rows);
         next();
-        // Now instanitate those rows with the .loadAll function, and pass control to the view.
       } else {
         $.getJSON('/data/hackerIpsum.json', function(rawData) {
           // localStorage.setItem('/data/hackerIpsum.json',)
@@ -105,10 +103,9 @@
           });
           // Now get ALL the records out the DB, with their database IDs:
           webDB.execute('SELECT * FROM articles', function(rows) {
+            // Now instanitate those rows with the .loadAll function, and pass control to the view.
             Article.loadAll(rows);
             next();
-            // Now instanitate those rows with the .loadAll function, and pass control to the view.
-
           });
         });
       }
