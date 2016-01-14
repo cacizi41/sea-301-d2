@@ -33,15 +33,9 @@
 
   // TODO: Correct the SQL to delete all records from the articles table.
   Article.truncateTable = function(callback) {
-    webDB.execute(
-      'DELETE * FROM articles;',
-      callback);
-
-    };
-  //   );
-  // };
-
-
+    webDB.execute('DELETE * FROM articles;',
+    callback);
+  };
 
   // // TODO: Insert an article instance into the database:
   Article.prototype.insertRecord = function(callback) {
@@ -54,7 +48,7 @@
       ],
       callback
     );
-    };
+  };
 
   // };
 
@@ -65,7 +59,6 @@
         {
           'sql': 'DELETE FROM articles(title, category, author, authorURL, publishedOn, body )VALUES (?, ?, ?, ?, ?, ?);',
           'data': [this.title, this.category, this.author, this.authorURL, this.publishedOn, this.body],
-
         }
       ],
       callback
@@ -77,8 +70,8 @@
     webDB.execute(
       [
         {
-        'sql': 'UPDATE INTO article (title, category, author, authorURL, publishedOn, body WHERE id =? );',
-        'data': [this.title, this.category, this.author, this.authorURL, this.publishedOn, this.body],
+          'sql': 'UPDATE INTO article (title, category, author, authorURL, publishedOn, body WHERE id =? );',
+          'data': [this.title, this.category, this.author, this.authorURL, this.publishedOn, this.body],
         }
       ],
       callback
@@ -151,13 +144,13 @@
           return a.author === author;
         })
         .map(function(a) {
-          return a.body.match(/\b\w+/g).length
+          return a.body.match(/\b\w+/g).length;
         })
         .reduce(function(a, b) {
           return a + b;
         })
-      }
-    })
+      };
+    });
   };
 
   Article.stats = function() {
@@ -166,7 +159,7 @@
       numWords: Article.numwords(),
       Authors: Article.allAuthors(),
     };
-  }
+  };
 
   module.Article = Article;
 })(window);
