@@ -7,8 +7,15 @@ repoView.index = function() {
     $('#about ul').append(repoView.render(repo));
   };
 
+  repos.all.forEach(_append);
+
+/* Use the following instead of the above line if you want to list
+ * only your *starred* GitHub repositories:
+
   repos.all.filter(repoView.with('watchers'))
   .forEach(_append);
+
+ */
 };
 
 repoView.with = function(attr) {
